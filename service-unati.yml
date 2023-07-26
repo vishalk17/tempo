@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: unati
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: unati-cluster-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: unati
+  namespace: default
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: unati-token
+  annotations:
+    kubernetes.io/service-account.name: unati
+type: kubernetes.io/service-account-token
